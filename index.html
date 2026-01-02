@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>New Year Fireworks</title>
+<style>
+    html, body {
+        margin: 0;
+        padding: 0;
+        background: black;
+        overflow: hidden;
+    }
+
+    canvas {
+        display: block;
+    }
+</style>
+</head>
+<body>
+
+<canvas id="canvas"></canvas>
+
+<script>
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener("resize", resize);
+
+// ----------------------
+// Scene Limits
+// ----------------------
+const WIDTH_LIMIT = canvas.width * 0.9;
+const HEIGHT_LIMIT = canvas.height * 0.8;
+const CENTER_X = canvas.width / 2;
+
+const SKY_TOP = canvas.height * 0.1;
+const TREE_LINE = canvas.height * 0.75;
+
+// ----------------------
+// Colors
+// ----------------------
+const colors = [
+    "#ff3b3b", "#ffb13b", "#fff23b",
+    "#3bff6f", "#3bc7ff", "#9d3bff",
+    "#ffffff"
+];
+
+// ----------------------
+// Firework Particles
+// ----------------------
+class Particle {
+    constructor(x, y, angle, speed, color) {
+        this.x = x;
+        this.y = y;
+        this.vx = Math.cos(angle) * speed;
+        this.vy = Math.sin(angle) * speed;
+        this.alpha = 1;
+        this.color = color;
+    }
+
+    update() {
+        this.vy += 0.04;        // gravity
+        this.x += this.vx;
+        this.y += this.vy;
+        this.alpha -= 0.01;
+    }
+
+    draw() {
+        ctx.globalAlpha = this.alpha;
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.globalAlpha = 1;
+    }
+}
+
+// ----------------------
+// Firework Explosion
+// ----------------------
+let particles = [];
+
+function explode(x, y) {
+    const count = 80;
+    const color = colors[Math.floor(Math.random() * colors.length)];
+
+    for (let i = 0; i < count; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 4 + 2;
+        particles.push(new Particle(x, y, angle, speed, color));
+    }
+}
+
+// ----------------------
+// Launch Firework
+// ----------------------
+function launch() {
+    const x = CENTER_X + (Math.random() - 0.5) * WIDTH_LIMIT;
+    const y = TREE_LINE - Math.random() * (TREE_LINE - SKY_TOP);
+    explode(x, y);
+}
+
+// ----------------------
+// Draw Trees
+// ----------------------
+function drawTrees() {
+    ctx.fillStyle = "#021b0f";
+
+    for (let i = 0; i < canvas.width; i += 40) {
+        const h = 60 + Math.random() * 80;
+        ctx.beginPath();
+        ctx.moveTo(i, TREE_LINE);
+        ctx.lineTo(i + 20, TREE_LINE - h);
+        ctx.lineTo(i + 40, TREE_LINE);
+        ctx.fill();
+    }
+}
+
+// ----------------------
+// Animation Loop
+// ----------------------
+function animate() {
+    ctx.fillStyle = "rgba(0, 0, 20, 0.25)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    drawTrees();
+
+    particles = particles.filter(p => p.alpha > 0);
+    particles.forEach(p => {
+        p.update();
+        p.draw();
+    });
+
+    requestAnimationFrame(animate);
+}
+
+// ----------------------
+// Timers
+// ----------------------
+setInterval(launch, 800);
+animate();
+</script>
+
+</body>
+</html>
