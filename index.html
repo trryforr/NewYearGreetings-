@@ -3,25 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎆 Happy New Year Fireworks 🎆</title>
+<title>✨ New Year Greetings ✨</title>
 
 <!-- ============================= -->
 <!-- Facebook / Social Preview -->
 <!-- ============================= -->
-<meta property="og:title" content="🎆 Happy New Year 🎆">
-<meta property="og:description" content="Celebrate the New Year with a beautiful fireworks animation ✨">
+<meta property="og:title" content="✨ Islamic New Year Greetings ✨">
+<meta property="og:description" content="May Allah bless our time, forgive our past, and guide our future.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://trryforr.github.io/NewYearGreetings-/">
-<meta property="og:image" content="https://duaguide.com/wp-content/uploads/2025/12/happy-new-year-blessings-2026-messages-duas-and-wishes.jpg">
-
-<!-- Optional Twitter Preview -->
+<meta property="og:url" content="https://YOUR_SITE_URL_HERE">
+<meta property="og:image" content="https://YOUR_SITE_URL_HERE/preview.png">
 <meta name="twitter:card" content="summary_large_image">
 
+<!-- ============================= -->
+<!-- Styles -->
+<!-- ============================= -->
 <style>
 html, body {
     margin: 0;
     padding: 0;
-    background: black;
+    background: linear-gradient(to top, #000011, #000022);
     overflow: hidden;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
@@ -30,17 +31,16 @@ canvas {
     display: block;
 }
 
-/* New Year Text Overlay */
+/* Title & Subtitle */
 #title {
     position: absolute;
     top: 8%;
     width: 100%;
     text-align: center;
-    color: #ffffff;
-    font-size: clamp(24px, 6vw, 64px);
+    color: #00ff88;
+    font-size: clamp(28px, 6vw, 64px);
     font-weight: 700;
-    letter-spacing: 2px;
-    text-shadow: 0 0 20px rgba(255,255,255,0.6);
+    text-shadow: 0 0 20px rgba(0,255,136,0.6);
     pointer-events: none;
 }
 
@@ -54,16 +54,40 @@ canvas {
     letter-spacing: 1px;
     pointer-events: none;
 }
+
+/* Optional Quranic Verse */
+#ayah {
+    position: absolute;
+    bottom: 6%;
+    width: 100%;
+    text-align: center;
+    color: rgba(255,255,255,0.6);
+    font-size: clamp(12px, 2.5vw, 20px);
+    letter-spacing: 1px;
+    pointer-events: none;
+}
 </style>
 </head>
-
 <body>
 
-<div id="title">🎆 HAPPY NEW YEAR 🎆</div>
-<div id="subtitle">Wishing You Joy, Success & Peace</div>
+<!-- Greeting -->
+<div id="title">✨ بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْم ✨</div>
+<div id="subtitle">
+May Allah bless our time, forgive our past, and guide our future 🤍
+</div>
 
+<!-- Quranic Reflection -->
+<div id="ayah">
+وَالْعَصْرِ ۝ إِنَّ الْإِنسَانَ لَفِي خُسْرٍ <br>
+Surah Al-‘Asr: By Time, indeed mankind is in loss
+</div>
+
+<!-- Canvas for Fireworks -->
 <canvas id="canvas"></canvas>
 
+<!-- ============================= -->
+<!-- JavaScript: Fireworks Animation -->
+<!-- ============================= -->
 <script>
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
@@ -79,22 +103,21 @@ resize();
 window.addEventListener("resize", resize);
 
 // ----------------------
-// Scene Limits
+// Scene Ratios
 // ----------------------
 const SKY_TOP_RATIO = 0.15;
 const TREE_LINE_RATIO = 0.78;
 
 // ----------------------
-// Colors
+// Colors for Particles
 // ----------------------
 const colors = [
-    "#ff4d4d", "#ffb84d", "#fff44d",
-    "#4dff88", "#4dcfff", "#b84dff",
-    "#ffffff"
+    "#00ff88", "#a3ff00", "#ffd700",
+    "#4dcfff", "#ff88ff", "#ffffff"
 ];
 
 // ----------------------
-// Firework Particle
+// Particle Class
 // ----------------------
 class Particle {
     constructor(x, y, angle, speed, color) {
@@ -107,7 +130,7 @@ class Particle {
     }
 
     update() {
-        this.vy += 0.04;
+        this.vy += 0.04;  // gravity
         this.x += this.vx;
         this.y += this.vy;
         this.alpha -= 0.012;
@@ -155,8 +178,7 @@ function launch() {
 }
 
 // ----------------------
-// Draw Trees
-// ----------------------
+// Draw Trees (Stylized)
 function drawTrees() {
     ctx.fillStyle = "#021b0f";
     const treeLine = canvas.height * TREE_LINE_RATIO;
@@ -173,7 +195,6 @@ function drawTrees() {
 
 // ----------------------
 // Animation Loop
-// ----------------------
 function animate() {
     ctx.fillStyle = "rgba(0, 0, 20, 0.3)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -190,11 +211,9 @@ function animate() {
 }
 
 // ----------------------
-// Timers
-// ----------------------
+// Start Timers
 setInterval(launch, 700);
 animate();
 </script>
-
 </body>
 </html>
