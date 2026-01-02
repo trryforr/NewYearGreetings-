@@ -2,21 +2,65 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>New Year Fireworks</title>
-<style>
-    html, body {
-        margin: 0;
-        padding: 0;
-        background: black;
-        overflow: hidden;
-    }
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎆 Happy New Year Fireworks 🎆</title>
 
-    canvas {
-        display: block;
-    }
+<!-- ============================= -->
+<!-- Facebook / Social Preview -->
+<!-- ============================= -->
+<meta property="og:title" content="🎆 Happy New Year 🎆">
+<meta property="og:description" content="Celebrate the New Year with a beautiful fireworks animation ✨">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://trryforr.github.io/NewYearGreetings-/">
+<meta property="og:image" content="https://duaguide.com/wp-content/uploads/2025/12/happy-new-year-blessings-2026-messages-duas-and-wishes.jpg">
+
+<!-- Optional Twitter Preview -->
+<meta name="twitter:card" content="summary_large_image">
+
+<style>
+html, body {
+    margin: 0;
+    padding: 0;
+    background: black;
+    overflow: hidden;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+canvas {
+    display: block;
+}
+
+/* New Year Text Overlay */
+#title {
+    position: absolute;
+    top: 8%;
+    width: 100%;
+    text-align: center;
+    color: #ffffff;
+    font-size: clamp(24px, 6vw, 64px);
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-shadow: 0 0 20px rgba(255,255,255,0.6);
+    pointer-events: none;
+}
+
+#subtitle {
+    position: absolute;
+    top: 18%;
+    width: 100%;
+    text-align: center;
+    color: #ffd700;
+    font-size: clamp(14px, 3vw, 28px);
+    letter-spacing: 1px;
+    pointer-events: none;
+}
 </style>
 </head>
+
 <body>
+
+<div id="title">🎆 HAPPY NEW YEAR 🎆</div>
+<div id="subtitle">Wishing You Joy, Success & Peace</div>
 
 <canvas id="canvas"></canvas>
 
@@ -24,6 +68,9 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
+// ----------------------
+// Resize Handling
+// ----------------------
 function resize() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -34,24 +81,20 @@ window.addEventListener("resize", resize);
 // ----------------------
 // Scene Limits
 // ----------------------
-const WIDTH_LIMIT = canvas.width * 0.9;
-const HEIGHT_LIMIT = canvas.height * 0.8;
-const CENTER_X = canvas.width / 2;
-
-const SKY_TOP = canvas.height * 0.1;
-const TREE_LINE = canvas.height * 0.75;
+const SKY_TOP_RATIO = 0.15;
+const TREE_LINE_RATIO = 0.78;
 
 // ----------------------
 // Colors
 // ----------------------
 const colors = [
-    "#ff3b3b", "#ffb13b", "#fff23b",
-    "#3bff6f", "#3bc7ff", "#9d3bff",
+    "#ff4d4d", "#ffb84d", "#fff44d",
+    "#4dff88", "#4dcfff", "#b84dff",
     "#ffffff"
 ];
 
 // ----------------------
-// Firework Particles
+// Firework Particle
 // ----------------------
 class Particle {
     constructor(x, y, angle, speed, color) {
@@ -64,10 +107,10 @@ class Particle {
     }
 
     update() {
-        this.vy += 0.04;        // gravity
+        this.vy += 0.04;
         this.x += this.vx;
         this.y += this.vy;
-        this.alpha -= 0.01;
+        this.alpha -= 0.012;
     }
 
     draw() {
@@ -86,7 +129,7 @@ class Particle {
 let particles = [];
 
 function explode(x, y) {
-    const count = 80;
+    const count = 90;
     const color = colors[Math.floor(Math.random() * colors.length)];
 
     for (let i = 0; i < count; i++) {
@@ -100,8 +143,14 @@ function explode(x, y) {
 // Launch Firework
 // ----------------------
 function launch() {
-    const x = CENTER_X + (Math.random() - 0.5) * WIDTH_LIMIT;
-    const y = TREE_LINE - Math.random() * (TREE_LINE - SKY_TOP);
+    const widthLimit = canvas.width * 0.9;
+    const centerX = canvas.width / 2;
+
+    const skyTop = canvas.height * SKY_TOP_RATIO;
+    const treeLine = canvas.height * TREE_LINE_RATIO;
+
+    const x = centerX + (Math.random() - 0.5) * widthLimit;
+    const y = treeLine - Math.random() * (treeLine - skyTop);
     explode(x, y);
 }
 
@@ -110,13 +159,14 @@ function launch() {
 // ----------------------
 function drawTrees() {
     ctx.fillStyle = "#021b0f";
+    const treeLine = canvas.height * TREE_LINE_RATIO;
 
     for (let i = 0; i < canvas.width; i += 40) {
         const h = 60 + Math.random() * 80;
         ctx.beginPath();
-        ctx.moveTo(i, TREE_LINE);
-        ctx.lineTo(i + 20, TREE_LINE - h);
-        ctx.lineTo(i + 40, TREE_LINE);
+        ctx.moveTo(i, treeLine);
+        ctx.lineTo(i + 20, treeLine - h);
+        ctx.lineTo(i + 40, treeLine);
         ctx.fill();
     }
 }
@@ -125,7 +175,7 @@ function drawTrees() {
 // Animation Loop
 // ----------------------
 function animate() {
-    ctx.fillStyle = "rgba(0, 0, 20, 0.25)";
+    ctx.fillStyle = "rgba(0, 0, 20, 0.3)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     drawTrees();
@@ -142,7 +192,7 @@ function animate() {
 // ----------------------
 // Timers
 // ----------------------
-setInterval(launch, 800);
+setInterval(launch, 700);
 animate();
 </script>
 
